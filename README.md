@@ -13,7 +13,7 @@ This assignment comes in two parts, assigned _separately_:
 1. The processor is a state-full machine. When tracing an assembly program you are essentially keeping track of the processor's state. The state of the processor can be approximated by the following set of memories:
 
    1. The 16 registers:
-      1. They are labeled R1 to R16
+      1. They are labeled R0 to R15
       2. Most of the a generic, meaining they can be used at the discretion of the programmer
       3. Some of them have conventional special purposes, and so have extra names, and those names are used in assembly programs. They are:
       
@@ -24,7 +24,7 @@ This assignment comes in two parts, assigned _separately_:
          R13 | SP | Stack pointer
          R14 | LR | Link register
          R15 | PC | Program counter
-         (R16) | CPSR | Current program status register (aka ASPR)
+         n/a | CPSR | Current program status register (aka ASPR)
          
       4. The CSPR (aka ASPR, for Application Program Status Register) contains 4 important 1-bit flags:
       
