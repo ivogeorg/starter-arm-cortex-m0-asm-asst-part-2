@@ -1,6 +1,6 @@
 # CPE 1040 - Introduction to Computer Engineering
 
-## Assignment: Tracing an ARM Assembly Program (Part 1)
+## Assignment: Tracing an ARM Assembly Program (Part 2)
 
 ### 1. Summary
 
@@ -11,6 +11,7 @@ This assignment comes in two parts, assigned _separately_:
 ### 2. Requirements
 
 1. The processor is a state-full machine. When tracing an assembly program you are essentially keeping track of the processor's state. The state of the processor can be approximated by the following set of memories:
+
    1. The 16 registers:
       1. They are labeled R1 to R16
       2. Most of the a generic, meaining they can be used at the discretion of the programmer
@@ -39,7 +40,11 @@ This assignment comes in two parts, assigned _separately_:
    2. The contents of the instruction cache (assume it is equivalent to the program you are tracing)
    3. The contents of the data cache
    4. The contents of the call stack
-2. For part 1, you only have to fill out the _Interpretation_ column for each instruction in the table in the [instruction-intepretation.md](instruction-intepretation.md) file. **You do not have to trace the state of the program as instructions are executed. This will be assigned in part 2.**
+
+2. In part 1, you filled out the _Interpretation_ column for each instruction in the table in the [instruction-intepretation.md](instruction-intepretation.md) file. Essentially, you _decoded_ the instructions.
+
+3. Now, in part 2, you need to actually trace the program. A simplified representation of the processor state, sufficient for this exercise, is provided in the file [????????](????????).
+
 
 ## Resources
 
