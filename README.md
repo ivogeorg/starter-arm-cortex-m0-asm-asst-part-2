@@ -48,16 +48,20 @@ This assignment comes in two parts, assigned _separately_:
 4. A simplified representation of the processor state, sufficient for this exercise, is provided in this [sketch](http://bit.ly/2MzeSEU). You need to make your own copies to edit them. Save as PNG when adding to your repository for submission.
 
 5. You need to show the processor state (including registers, the stack, and the data memory) at 3 different instants of the program. These are:
-
-TODO
+   1. After line 15 but before line 16 of [negate_program.S](negate_program.S).
+   2. After line 7 but before line 8 of [negate_program.S](negate_program.S).
+   3. After line 26 but before line 27 of [negate_program.S](negate_program.S).
 
 6. Guidelines for filling out the state sketches:
    1. Ignore the IR (instruction register), MAR (memory address register), and MDR (memory data register) registers in the bottom left.
    2. Assume that, at the start of the program, `value` is stored at location 0x00000000 of the data memory. Please, use _hexadecimal_ when representing addresses and values in memory. For example, 6<sub>10</sub> = 0x00000006 and -6<sub>10</sub> = 0xfffffffa. Remember that one hexadecimal digit corresponds to 4 bits (aka one _nibble_, or _half-byte_).
    3. Assume that the stack grows from address 0x00001077 _down_ toward lower addresses (notice the arrow next to the stack region in the sketch).
-   4. It is _optional_ to fill in the addresses of the stack, but it will be helpful to you.
+   4. It is _optional_ to fill in the addresses of the stack, but it might be helpful. You will need to 
    5. The ARM Cortex-M0 is a 32-bit architecture, which means that both the registers and the memory locations in the sketch are all 4 bytes long. You will see that the stack pointer is being moved by multiples of 4. A 4-byte memory location with an address that divides by 4 is called a _word_.
-
+   6. Remember, the program starts with the `main` function, so the first instruction to be executed is on line 12 of [negate_program.S](negate_program.S).
+   
+TODO: How to read the data address assembly syntax. Explanation, including LDR.
+TODO: How to know when NZCV change. Documentation for conditional execution.
 
 ## Resources
 
