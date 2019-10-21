@@ -52,17 +52,44 @@ This assignment comes in two parts, assigned _separately_:
    2. After line 7 but before line 8 of [negate_program.S](negate_program.S).
    3. After line 26 but before line 27 of [negate_program.S](negate_program.S).
 
-6. Guidelines for filling out the state sketches:
-   1. Ignore the IR (instruction register), MAR (memory address register), and MDR (memory data register) registers in the bottom left.
-   2. Assume that, at the start of the program, `value` is stored at location 0x00000000 of the data memory. Please, use _hexadecimal_ when representing addresses and values in memory. For example, 6<sub>10</sub> = 0x00000006 and -6<sub>10</sub> = 0xfffffffa. Remember that one hexadecimal digit corresponds to 4 bits (aka one _nibble_, or _half-byte_).
-   3. Assume that the stack grows from address 0x00001077 _down_ toward lower addresses (notice the arrow next to the stack region in the sketch).
-   4. It is _optional_ to fill in the addresses of the stack, but it might be helpful. You will need to 
-   5. The ARM Cortex-M0 is a 32-bit architecture, which means that both the registers and the memory locations in the sketch are all 4 bytes long. You will see that the stack pointer is being moved by multiples of 4. A 4-byte memory location with an address that divides by 4 is called a _word_.
-   6. Remember, the program starts with the `main` function, so the first instruction to be executed is on line 12 of [negate_program.S](negate_program.S).
-   
-TODO: How to read the data address assembly syntax. Explanation, including LDR.
-TODO: How to know when NZCV change. Documentation for conditional execution.
+### 3. Guidelines
 
+   1. Ignore the IR (instruction register), MAR (memory address register), and MDR (memory data register) registers in the bottom left.
+   2. Assume that, at the start of the program, `value` is stored at location 0x00000000 of the data memory (the rightmost memory region in the sketch). Please, use _hexadecimal_ when representing addresses and values in memory. For example, 6<sub>10</sub> = 0x00000006 and -6<sub>10</sub> = 0xfffffffa. Remember that one hexadecimal digit corresponds to 4 bits (aka one _nibble_, or _half-byte_).
+   3. The ARM Cortex-M0 is a 32-bit architecture, which means that both the registers and the memory locations in the sketch are all 4 bytes long. You will see that the stack pointer is being moved by multiples of 4. A 4-byte memory location with an address that divides by 4 is called a _word_.
+   4. Assume that the stack grows from address 0x00001077 _down_ toward lower addresses (notice the arrow next to the stack region in the sketch). The stack grows by _subtracting_ from the _stack pointer (sp)_, and, conversely, shrinks by _adding_ to the stack pointer. The stack pointer is a register holding an address. The stack pointer always points to the _top_ of the stack (that is, the word with the lowest address in the stack).
+   5. It is _optional_ to fill in the addresses of the stack, but it might be helpful. You will need to 
+   6. Remember, the program starts with the `main` function, so the first instruction to be executed is on line 12 of [negate_program.S](negate_program.S).
+   7. You need to keep track of the NZCV flags (see above). You will need the following:
+      1. [Summary of the ARM Cortex-M0 instruction set](http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0497a/BABGIFCI.html), which lists the flags each instruction modifies. This also gives you links to the instruction documentation. Note that, in the documentation, instructions are clustered into groups that belong together.
+      2. [Description of the flags, which lists the conditions which they correspond to](http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0497a/BABEHFEF.html), when combinations of them are set or not set. In the processor, this is done directly in hardware. When you are doing the tracing, you have to decide if an instruction is going to set a flag or not. Read the documentation for the instruction to find out.
+      3. The flags cannot be forced to 0 (there is a way, but it is deliberately complicated), but only set or unset by subsequent instructions.
+   8. When the C program has global data, in the assembly program this data is given an address label (the exact address is determined at link or run time). Here is a portion of the assembly program which shows how `value` is transfered between data memory and registers (see comments, after the semicolons `;`, for explanation):
+      ```assembly
+      value:
+              .word   6           ; the 'value' variable is a word, holding the immediate value of 6 (decimal)
+              
+              ...
+
+      main:
+              ...
+              ldr     r3, .L6     ; load .L6 (see below) into r3
+              ldr     r3, [r3]    ; dereference r3 ([r3] is a dereferencing) to get the immedate value, and store back into r3
+              cmp     r3, #0      ; use the value in r3 to compare to 0 (if statement)
+              
+              ...
+              
+              movs    r2, r0      ; store the result of negate into r2
+              ldr     r3, .L6     ; load the address of the original variable
+              str     r2, [r3]    ; store the contents (value) of r2 at the location pointed by r3 (dereferencing)
+              
+              ...
+              
+      .L6:
+              .word   value      ; the address of the 'value' variable, represented by the label .L6
+      ```
+   9. Notice that the generated assembly is redundant. Some operations are repeated. Don't worry about it. The assembly is correct, though it can be optimized, and made more efficient.
+   
 ## Resources
 
 ## C
@@ -77,6 +104,8 @@ TODO: How to know when NZCV change. Documentation for conditional execution.
 1. ARM Cortex-M0 [Instruction Set Summary](http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0497a/BABIHJGA.html)
 2. Azeria Labs [Introduction to ARM Assembly Basics](https://azeria-labs.com/writing-arm-assembly-part-1/)
 3. Dave Space [Introduction to ARM](http://www.davespace.co.uk/arm/)
+4. ARM [Cortex-M0 instruction set summary](http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0497a/BABGIFCI.html)
+5. ARM [conditional execution](http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0497a/BABEHFEF.html)
 
 ### Github
 
